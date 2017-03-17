@@ -19,6 +19,8 @@
   "license": "Apache-2.0",
   "homepage": "https://github.com/GoogleChrome/confluence#readme",
   "dependencies": {
+    "angular": "^1.6.3",
+    "angular-ui-router": "^0.4.2",
     "foam2": "git://github.com/foam-framework/foam2.git",
     "object-graph-js": "git://github.com/mdittmer/object-graph-js.git"
   },
@@ -30,6 +32,7 @@
     "babel-preset-es2015": "^6.22.0",
     "eslint": "^3.16.1",
     "eslint-config-google": "^0.7.1",
+    "html-loader": "^0.4.5",
     "jasmine": "^2.5.3",
     "jasmine-core": "^2.5.2",
     "karma": "^1.5.0",

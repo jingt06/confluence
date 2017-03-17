@@ -34,6 +34,10 @@ module.exports = {
           plugins: ['transform-runtime'],
         },
       },
+      {
+        test: /\.html$/,
+        loader: 'html-loader',
+      },
     ],
   },
   plugins: [
