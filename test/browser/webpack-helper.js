@@ -21,20 +21,20 @@
  * Thus, libraries like ObjectGraph will not be executed twice in karma.
  */
 
-
-/**
-  @param {webpack-context} r - all files in the context will be loaded.
-*/
-function importAll(r) {
-  r.keys().forEach(r);
-}
-
-// Import all libraries from lib directory.
-importAll(require.context(`${__dirname}/../../lib`, true, /\.js$/));
+// Import libraries to test.
+require('../../lib/web_catalog/api_extractor.es6');
+require('../../lib/web_apis/browser_api.es6');
+require('../../lib/web_apis/api_importer.es6');
+require('../../lib/client/api_matrix.es6');
 
 // Require external libraries.
 let libs = {
   ObjectGraph: require('object-graph-js').ObjectGraph,
+  DATA: {
+	chrome56: require('../data/window_Chrome_56_Windows_10.0.json'),
+	edge14: require('../data/window_Edge_14_Windows_10.0.json'),
+	safari602: require('../data/window_Safari_602_OSX_10.12.3.json'),
+  },
 };
 
 // Add external libraries to global object.
