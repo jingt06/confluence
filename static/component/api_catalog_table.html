@@ -10,7 +10,6 @@
     background-color: rgba(255, 255, 255, 0.5);
   }
 </style>
-
 <div class='card-panel'>
   <nav class='blue lighten-3'>
     <div class='nav-wrapper'>
@@ -26,6 +25,13 @@
         </li>
       </ul>
       <ul class='right'>
+        <li class="switch">
+          <label class='white-text'>
+            Expand All
+            <input type="checkbox" ng-model='expandAll'>
+            <span class="lever"></span>
+          </label>
+        </li>
         <!-- Pagination -->
         <li class='waves-effect' ng-class='{disabled: currentPage === 0}'
           ng-click='setPage(currentPage-1)'
@@ -66,10 +72,10 @@
       </tr>
       <tr ng-repeat-start='interface in getInterfaceRange()' ng-click='showCatalog(interface)'>
         <td class='waves-effect'
-          ng-class='{"grey lighten-1": showRows[interface]}'
+          ng-class='{"grey lighten-1": showRows[interface] || expandAll}'
           ng-style='{cursor:"pointer", width:"100%"}'>{{interface}}</td>
       </tr>
-      <tr ng-repeat-end ng-repeat='(api, results) in apiCatalogMatrix[interface]' ng-if='showRows[interface]'>
+      <tr ng-repeat-end ng-repeat='(api, results) in apiCatalogMatrix[interface]' ng-if='showRows[interface] || expandAll'>
         <td class='colhead'>{{api}}</td>
         <td ng-repeat='browser in $ctrl.browserKeys'
           ng-class='{"red accent-1": !results[browser], "green accent-1": results[browser]}'>
