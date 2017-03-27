@@ -1,1 +1,89 @@
-<a ui-sref="home">home</a> <a ui-sref="catalog">catalog</a> confluence
+
+<ul id='tabs' class="tabs" ng-show='browserKeys.length!==0'>
+  <li class='tab'>
+    <a ng-click='showTab=0' class='blue-text text-darken-2'>API Velocity</a>
+  </li>
+  <li class='tab'>
+    <a ng-click='showTab=1' class='blue-text text-darken-2'>Failue to Ship</a>
+  </li>
+  <li class='tab'>
+    <a ng-click='showTab=2' class='blue-text text-darken-2'>Aggressive removal</a>
+  </li>
+  <li class='tab'>
+    <a ng-click='showTab=3' class='blue-text text-darken-2'>Vendor-Specific APIs</a>
+  </li>
+  <li class="tab" ng-repeat="view in additionalViews track by $index">
+    <a ng-click="$parent.showTab=4+$index">{{'#view'+$index}}</a>
+  </li>
+</ul>
+
+<div class='container'>
+  <div ng-show='showTab===0'>
+    <api-velocity-chart
+      ng-repeat='(browser, apiVelocity) in apiVelocityMetrics'
+      chart-id='browser+"-api-velocity"'
+      title='browser+" API Velocity"'
+      api-velocity='apiVelocity'
+      new-diff-view='createNewDiffView(minuend, subtrahend)'
+    ></api-velocity-chart>
+  </div>
+  <div ng-show='showTab===1'>
+    <num-api-chart
+      ng-if='failureToShipMetric'
+      chart-id='"failure-to-ship-chart"'
+      title='"Failure To Ship Metric"'
+      num-api-data='failureToShipMetric'
+      create-new-view='newFailureToShipView(browserKey, allBrowserKeys)'
+    >
+    </num-api-chart>
+    <num-api-chart
+      ng-if='failureToShipMetric'
+      ng-repeat='singleFaulureMetric in singleFaulureMetrics track by $index'
+      chart-id='singleFaulureMetric.browserName+"-failure-to-ship-chart"'
+      title='singleFaulureMetric.browserName+" Failure To Ship APIs"'
+      num-api-data='singleFaulureMetric.metric'
+      create-new-view='newFailureToShipView(browserKey, allBrowserKeys)'
+    >
+    </num-api-chart>
+  </div>
+  <div ng-show='showTab===2'>
+    <aggressive-removal-chart
+      ng-if='aggressiveRemovalMetrics'
+      ng-repeat='(browser, dataArray) in aggressiveRemovalMetrics'
+      chart-id='browser+"-aggressive-removal-apis-chart"'
+      title='browser+" Aggressive Removal APIs"'
+      aggressive-removal='dataArray'
+      create-new-view='newRemovedView(browserKey, prevBrowserKey, comparedBrowserKeys)'
+    >
+    </aggressive-removal-chart>
+  </div>
+  <div ng-show='showTab===3'>
+    <num-api-chart
+      ng-if='vendorSpecificMetric'
+      chart-id='"vendor-specific-apis-chart"'
+      title='"Vendor Specific APIs"'
+      num-api-data='vendorSpecificMetric'
+      create-new-view='newVendorSpecificView(browserKey, allBrowserKeys)'
+    >
+    </num-api-chart>
+    <num-api-chart
+      ng-if='vendorSpecificMetric'
+      ng-repeat='singleVendorSpecificMetric in singleVendorSpecificMetrics track by $index'
+      chart-id='singleVendorSpecificMetric.browserName+"-vendor-specific-apis-chart"'
+      title='singleVendorSpecificMetric.browserName+" Vendor Specific APIs"'
+      num-api-data='singleVendorSpecificMetric.metric'
+      create-new-view='newVendorSpecificView(browserKey, allBrowserKeys)'
+    >
+    </num-api-chart>
+  </div>
+  <!-- additional view. -->
+  <api-catalog-table
+    api-matrix='apiMatrix'
+    ng-repeat="view in additionalViews track by $index"
+    ng-show="$parent.showTab===4+$index"
+    browser-keys='view.browserKeys'
+    browser-options='view.browserOptions'
+    length='view.length'
+    lengths='view.lengths'>
+  </api-catalog-table>
+</div>
